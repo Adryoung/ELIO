@@ -1,0 +1,340 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ELIO | Study Hub</title>
+  <link rel="stylesheet" href="study.css">
+</head>
+<body>
+<div class="app-layout">
+  <aside class="sidebar">
+    <div class="brand">
+      <h2>🦋 ELIO</h2>
+      <p>Made for Your Everyday.</p>
+    </div>
+
+    <nav class="navigation">
+      <a class="nav-link" href="home.html">Home</a>
+      <a class="nav-link" href="ai.html"> ✨ AI Assistant</a>
+      <a class="nav-link" href="work.html">Work</a>
+      <a class="nav-link" href="personal.html">Personal</a>
+      <a class="nav-link" href="planner.html">Planner</a>
+      <a class="nav-link active" href="study.html">Study Hub</a>
+      <a class="nav-link" href="grocery.html">Grocery</a>
+      <a class="nav-link" href="expenses.html">Expenses</a>
+      <a class="nav-link" href="meals.html">Meals & Recipes</a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <a class="logout-link" href="login.html">Logout</a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <header class="page-header">
+      <div>
+        <p class="page-label">Learning Space</p>
+        <h1>Study Hub 📚</h1>
+        <p class="page-description">
+          Keep your subjects, deadlines and lecture slides together.
+        </p>
+      </div>
+    </header>
+
+    <section class="summary-grid">
+      <div class="summary-card">
+        <p>Subjects</p>
+        <h2 id="count-subjects">0</h2>
+      </div>
+      <div class="summary-card">
+        <p>Open Assignments</p>
+        <h2 id="count-assignments">0</h2>
+      </div>
+      <div class="summary-card">
+        <p>Study Materials</p>
+        <h2 id="count-materials">0</h2>
+      </div>
+      <div class="summary-card">
+        <p>Upcoming Sessions</p>
+        <h2 id="count-schedule">0</h2>
+      </div>
+    </section>
+
+    <p id="study-message"
+       class="message"
+       role="status"
+       aria-live="polite"></p>
+
+    <!-- MY SUBJECTS -->
+    <section class="study-section" id="subjects-section">
+      <div class="section-header">
+        <div>
+          <h2>📖 My Subjects</h2>
+          <p>Manage courses and semesters.</p>
+        </div>
+        <button class="primary-button"
+                id="add-subject"
+                type="button">
+          + Add Subject
+        </button>
+      </div>
+
+      <form id="subject-form" class="editor hidden">
+        <h3 id="subject-form-heading">Add Subject</h3>
+
+        <div class="form-grid">
+          <label>
+            Subject Name
+            <input id="subject-name"
+                   required
+                   maxlength="150"
+                   placeholder="e.g. Philosophy and Current Issues">
+          </label>
+
+          <label>
+            Course Code
+            <input id="subject-code"
+                   placeholder="e.g. CTU552">
+          </label>
+
+          <label>
+            Semester
+            <input id="subject-semester"
+                   placeholder="e.g. Semester 2">
+          </label>
+
+          <label>
+            Lecturer
+            <input id="subject-lecturer"
+                   placeholder="Optional">
+          </label>
+        </div>
+
+        <label>
+          Details
+          <textarea id="subject-notes"
+                    rows="2"
+                    placeholder="Optional"></textarea>
+        </label>
+
+        <div class="form-actions">
+          <button class="secondary-button"
+                  type="button"
+                  data-cancel="subject">
+            Cancel
+          </button>
+          <button class="primary-button" type="submit">
+            Save Subject
+          </button>
+        </div>
+      </form>
+
+      <div id="subjects-list" class="items-grid"></div>
+    </section>
+
+    <!-- ASSIGNMENTS -->
+    <section class="study-section" id="assignments-section">
+      <div class="section-header">
+        <div>
+          <h2>📝 Assignments</h2>
+          <p>Track deadlines and progress.</p>
+        </div>
+        <button class="primary-button"
+                id="add-assignment"
+                type="button">
+          + Add Assignment
+        </button>
+      </div>
+
+      <form id="assignment-form" class="editor hidden">
+        <h3 id="assignment-form-heading">Add Assignment</h3>
+
+        <div class="form-grid">
+          <label>
+            Assignment Title
+            <input id="assignment-title"
+                   required
+                   maxlength="200">
+          </label>
+
+          <label>
+            Subject
+            <select id="assignment-subject"></select>
+          </label>
+
+          <label>
+            Due Date
+            <input id="assignment-date" type="date">
+          </label>
+
+          <label>
+            Priority
+            <select id="assignment-priority">
+              <option>Low</option>
+              <option selected>Medium</option>
+              <option>High</option>
+            </select>
+          </label>
+
+          <label>
+            Status
+            <select id="assignment-status">
+              <option>Not Started</option>
+              <option>In Progress</option>
+              <option>Completed</option>
+            </select>
+          </label>
+        </div>
+
+        <label>
+          Description
+          <textarea id="assignment-description"
+                    rows="3"></textarea>
+        </label>
+
+        <div class="form-actions">
+          <button class="secondary-button"
+                  type="button"
+                  data-cancel="assignment">
+            Cancel
+          </button>
+          <button class="primary-button" type="submit">
+            Save Assignment
+          </button>
+        </div>
+      </form>
+
+      <div id="assignments-list" class="item-list"></div>
+    </section>
+
+    <!-- STUDY MATERIALS -->
+    <section class="study-section" id="materials-section">
+      <div class="section-header">
+        <div>
+          <h2>📂 Study Materials</h2>
+          <p>Keep lecture slides and documents by subject.</p>
+        </div>
+      </div>
+
+      <form id="material-form" class="editor upload-panel">
+        <div class="form-grid">
+          <label>
+            Subject
+            <select id="material-subject"></select>
+          </label>
+
+          <label>
+            Choose Files
+            <input id="material-files"
+                   type="file"
+                   multiple
+                   required
+                   accept=".pdf,.ppt,.pptx,.doc,.docx">
+          </label>
+        </div>
+
+        <p class="hint">
+          PDF, PPT, PPTX, DOC, DOCX.
+          Maximum 20 MB per file.
+          Upload requires a subject.
+        </p>
+
+        <div class="form-actions">
+          <button class="primary-button"
+                  id="upload-button"
+                  type="submit">
+            Upload Slides
+          </button>
+        </div>
+      </form>
+
+      <div id="materials-list" class="item-list"></div>
+    </section>
+
+    <!-- STUDY SCHEDULE -->
+    <section class="study-section" id="schedule-section">
+      <div class="section-header">
+        <div>
+          <h2>🗓️ Study Schedule</h2>
+          <p>Plan study sessions, quizzes and exams.</p>
+        </div>
+        <button class="primary-button"
+                id="add-schedule"
+                type="button">
+          + Add Schedule
+        </button>
+      </div>
+
+      <form id="schedule-form" class="editor hidden">
+        <h3 id="schedule-form-heading">
+          Add Study Schedule
+        </h3>
+
+        <div class="form-grid">
+          <label>
+            Activity Title
+            <input id="schedule-title"
+                   required
+                   maxlength="200">
+          </label>
+
+          <label>
+            Subject
+            <select id="schedule-subject"></select>
+          </label>
+
+          <label>
+            Activity Type
+            <select id="schedule-type">
+              <option>Study</option>
+              <option>Revision</option>
+              <option>Quiz</option>
+              <option>Exam</option>
+              <option>Other</option>
+            </select>
+          </label>
+
+          <label>
+            Start
+            <input id="schedule-start"
+                   type="datetime-local"
+                   required>
+          </label>
+
+          <label>
+            End (optional)
+            <input id="schedule-end"
+                   type="datetime-local">
+          </label>
+        </div>
+
+        <label>
+          Details
+          <textarea id="schedule-notes"
+                    rows="2"></textarea>
+        </label>
+
+        <div class="form-actions">
+          <button class="secondary-button"
+                  type="button"
+                  data-cancel="schedule">
+            Cancel
+          </button>
+          <button class="primary-button" type="submit">
+            Save Schedule
+          </button>
+        </div>
+      </form>
+
+      <div id="schedule-list" class="item-list"></div>
+    </section>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="study.js"></script>
+</body>
+</html>

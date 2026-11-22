@@ -1,0 +1,706 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>ELIO | AI Assistant</title>
+
+  <link rel="stylesheet" href="ai.css">
+
+  <style>
+    /* =====================================
+       ELIO - AI ASSISTANT
+       AI CHAT + SMART PLANNER
+       NAVIGATION WITHOUT EMOJI
+    ===================================== */
+
+    :root {
+      --navy: #2f4156;
+      --blue: #567c8d;
+      --light-blue: #c8d9e6;
+      --cream: #f5efeb;
+      --white: #ffffff;
+      --background: #f7fafc;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: var(--navy);
+      background: var(--background);
+    }
+
+    /* MAIN LAYOUT */
+
+    .app-layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* SIDEBAR */
+
+    .sidebar {
+      width: 245px;
+      flex-shrink: 0;
+      background: var(--navy);
+      color: white;
+      padding: 24px 16px;
+    }
+
+    .brand {
+      font-size: 23px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .brand-subtitle {
+      font-size: 12px;
+      color: var(--light-blue);
+      margin-bottom: 35px;
+    }
+
+    .navigation {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .navigation a {
+      display: block;
+      padding: 13px 15px;
+      border-radius: 12px;
+      color: #e6eef4;
+      text-decoration: none;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+
+    .navigation a:hover {
+      background: #40566e;
+    }
+
+    .navigation a.active {
+      background: var(--light-blue);
+      color: var(--navy);
+      font-weight: bold;
+    }
+
+    /* MAIN CONTENT */
+
+    .main-content {
+      flex: 1;
+      min-width: 0;
+      padding: 36px 45px;
+    }
+
+    .page-label {
+      color: var(--blue);
+      font-weight: bold;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .page-title {
+      font-size: 38px;
+      margin: 0 0 12px;
+    }
+
+    .page-description {
+      font-size: 16px;
+      color: var(--blue);
+      margin-bottom: 30px;
+    }
+
+    /* AI CHAT CARD */
+
+    .ai-card {
+      background: white;
+      border: 1px solid var(--light-blue);
+      border-radius: 22px;
+      padding: 28px;
+    }
+
+    .ai-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 15px;
+    }
+
+    .ai-card-header h2 {
+      font-size: 24px;
+      margin: 0 0 6px;
+    }
+
+    .ai-card-header p {
+      color: var(--blue);
+      margin: 0;
+    }
+
+    .model-badge {
+      background: var(--cream);
+      color: var(--blue);
+      padding: 10px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    /* CHAT TOOLBAR */
+
+    .chat-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 25px 0 16px;
+    }
+
+    .chat-status {
+      color: var(--blue);
+      font-size: 13px;
+    }
+
+    .new-chat-button {
+      padding: 12px 18px;
+      background: var(--cream);
+      border: 1px solid var(--light-blue);
+      border-radius: 12px;
+      color: var(--navy);
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .new-chat-button:hover {
+      background: var(--light-blue);
+    }
+
+    /* PREVIOUS CHATS */
+
+    .conversation-panel {
+      margin: 20px 0 24px;
+      padding: 20px;
+      background: #f5f9fc;
+      border: 1px solid var(--light-blue);
+      border-radius: 16px;
+    }
+
+    .conversation-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .conversation-heading h3 {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    #conversation-count {
+      font-size: 12px;
+      color: var(--blue);
+      background: white;
+      padding: 6px 12px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .conversation-list {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding: 4px 2px 12px;
+    }
+
+    .conversation-item {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+      flex: 0 0 260px;
+      min-height: 76px;
+      padding: 8px;
+      background: white;
+      border: 1px solid var(--light-blue);
+      border-radius: 12px;
+      transition: 0.2s;
+    }
+
+    .conversation-item:hover {
+      background: #edf4f8;
+      border-color: var(--blue);
+    }
+
+    .conversation-item.active {
+      background: #e0edf5;
+      border: 2px solid var(--blue);
+    }
+
+    .conversation-open-button {
+      flex: 1;
+      min-width: 0;
+      padding: 8px;
+      border: none;
+      background: transparent;
+      color: var(--navy);
+      font-family: inherit;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .conversation-info {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .conversation-title {
+      display: block;
+      width: 100%;
+      font-size: 14px;
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .conversation-date {
+      font-size: 12px;
+      color: var(--blue);
+    }
+
+    .delete-chat-button {
+      flex-shrink: 0;
+      padding: 8px 10px;
+      background: #fff1f1;
+      color: #b42318;
+      border: 1px solid #f3c6c6;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .delete-chat-button:hover {
+      background: #ffe0e0;
+    }
+
+    .conversation-empty {
+      font-size: 13px;
+      color: var(--blue);
+    }
+
+    /* CHAT MESSAGES */
+
+    .chat-messages {
+      min-height: 350px;
+      height: 420px;
+      overflow-y: auto;
+      background: #f5f8fa;
+      border: 1px solid var(--light-blue);
+      border-radius: 18px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .message {
+      padding: 15px 20px;
+      border-radius: 18px;
+      max-width: 82%;
+      font-size: 14px;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .message.user {
+      align-self: flex-end;
+      background: var(--blue);
+      color: white;
+      border-bottom-right-radius: 5px;
+    }
+
+    .message.assistant {
+      align-self: flex-start;
+      background: white;
+      border: 1px solid var(--light-blue);
+      color: var(--navy);
+      border-bottom-left-radius: 5px;
+    }
+
+    .message.error {
+      align-self: center;
+      background: #fff0f0;
+      color: #b42318;
+      border: 1px solid #ffcaca;
+    }
+
+    .welcome-message {
+      text-align: center;
+      margin: auto;
+      padding: 25px;
+    }
+
+    .welcome-message h3 {
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .welcome-message p {
+      color: var(--blue);
+      line-height: 1.6;
+    }
+
+    /* PLANNER ACTION BUTTONS */
+
+    .planner-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .planner-action-button {
+      padding: 11px 16px;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* CHAT INPUT */
+
+    .chat-form {
+      margin-top: 22px;
+    }
+
+    .chat-form label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+
+    .chat-input {
+      width: 100%;
+      min-height: 110px;
+      resize: vertical;
+      border: 1px solid var(--light-blue);
+      border-radius: 14px;
+      padding: 16px;
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--navy);
+      outline: none;
+    }
+
+    .chat-input:focus {
+      border-color: var(--blue);
+    }
+
+    .input-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .character-count {
+      font-size: 12px;
+      color: var(--blue);
+    }
+
+    .send-button {
+      background: var(--blue);
+      color: white;
+      border: none;
+      padding: 13px 22px;
+      border-radius: 12px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .send-button:hover {
+      background: var(--navy);
+    }
+
+    button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    button:focus-visible,
+    a:focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 2px;
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 850px) {
+      .sidebar {
+        width: 190px;
+      }
+
+      .main-content {
+        padding: 25px;
+      }
+
+      .page-title {
+        font-size: 30px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .app-layout {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        padding: 16px;
+      }
+
+      .brand-subtitle {
+        margin-bottom: 15px;
+      }
+
+      .navigation {
+        flex-direction: row;
+        overflow-x: auto;
+      }
+
+      .navigation a {
+        white-space: nowrap;
+      }
+
+      .main-content {
+        padding: 18px;
+      }
+
+      .ai-card {
+        padding: 16px;
+      }
+
+      .ai-card-header {
+        flex-direction: column;
+      }
+
+      .message {
+        max-width: 95%;
+      }
+
+      .conversation-item {
+        flex-basis: 230px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app-layout">
+
+  <!-- SIDEBAR -->
+
+  <aside class="sidebar">
+
+    <div class="brand">
+      ELIO
+    </div>
+
+    <div class="brand-subtitle">
+     Made for Your Everyday.
+    </div>
+
+    <nav class="navigation">
+      <a href="home.html">Home</a>
+      <a href="work.html">Work</a>
+      <a href="personal.html">Personal</a>
+      <a href="planner.html">Planner</a>
+      <a href="grocery.html">Grocery</a>
+      <a href="expenses.html">Expenses</a>
+      <a href="meals.html">Meals &amp; Recipes</a>
+      <a href="ai.html"
+         class="active"
+         aria-current="page"> ✨ AI Assistant</a>
+    </nav>
+
+  </aside>
+
+  <!-- MAIN CONTENT -->
+
+  <main class="main-content">
+
+    <div class="page-label">
+      AI Assistant
+    </div>
+
+    <h1 class="page-title">
+      Your Personal AI
+    </h1>
+
+    <p class="page-description">
+      Ask questions, organise ideas and plan your day.
+    </p>
+
+    <section class="ai-card">
+
+      <!-- AI HEADER -->
+
+      <div class="ai-card-header">
+
+        <div>
+          <h2>Chat with Mellynna AI</h2>
+          <p>Your assistant for everyday tasks.</p>
+        </div>
+
+        <div class="model-badge">
+          Qwen AI
+        </div>
+
+      </div>
+
+      <!-- CHAT STATUS -->
+
+      <div class="chat-toolbar">
+
+        <span
+          id="chat-status"
+          class="chat-status"
+          role="status"
+        >
+          Connecting to AI...
+        </span>
+
+        <button
+          type="button"
+          id="new-chat"
+          class="new-chat-button"
+        >
+          + New Chat
+        </button>
+
+      </div>
+
+      <!-- PREVIOUS CHATS -->
+
+      <section class="conversation-panel">
+
+        <div class="conversation-heading">
+
+          <h3>Previous Chats</h3>
+
+          <span id="conversation-count">
+            0 chats
+          </span>
+
+        </div>
+
+        <div
+          id="conversation-list"
+          class="conversation-list"
+          aria-label="Previous conversations"
+        ></div>
+
+      </section>
+
+      <!-- CHAT MESSAGES -->
+
+      <div
+        id="chat-messages"
+        class="chat-messages"
+        role="log"
+        aria-label="AI conversation"
+        aria-live="polite"
+        aria-relevant="additions"
+      >
+
+        <div class="welcome-message">
+
+          <h3>Hello! I'm Mellynna AI.</h3>
+
+          <p>
+            How can I help you today?
+            You can chat in Bahasa Melayu or English.
+          </p>
+
+        </div>
+
+      </div>
+
+      <!-- CHAT INPUT -->
+
+      <form
+        id="chat-form"
+        class="chat-form"
+      >
+
+        <label for="chat-input">
+          Your message
+        </label>
+
+        <textarea
+          id="chat-input"
+          class="chat-input"
+          placeholder="Ask Mellynna AI anything..."
+          maxlength="2000"
+          rows="4"
+          required
+        ></textarea>
+
+        <div class="input-footer">
+
+          <span
+            id="character-count"
+            class="character-count"
+          >
+            0 / 2000
+          </span>
+
+          <button
+            type="submit"
+            id="send-button"
+            class="send-button"
+          >
+            Send Message
+          </button>
+
+        </div>
+
+      </form>
+
+    </section>
+
+  </main>
+
+</div>
+
+<!-- SUPABASE SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- EXISTING MELLYNNA OS CONFIGURATION -->
+<script src="supabase-config.js"></script>
+<script src="auth.js"></script>
+
+<!-- AI CHAT + SMART PLANNER -->
+<script src="ai.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,321 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mellynna OS - Planner</title>
+
+    <link rel="stylesheet" href="planner.css">
+</head>
+
+<body>
+
+    <div class="app-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
+            <div class="brand">
+                <h2>🦋 ELIO </h2>
+                <p>Made for Your Everyday.</p>
+            </div>
+
+            <nav class="navigation">
+
+                <a href="home.html" class="nav-link">
+                    Home
+                </a>
+
+                <a href="ai.html" class="nav-link">
+                     ✨ AI Assistant
+                </a>
+
+                <a href="work.html" class="nav-link">
+                    Work
+                </a>
+
+                <a href="personal.html" class="nav-link">
+                    Personal
+                </a>
+
+ <a href="study.html" class="nav-link">Study Hub</a>
+
+
+
+                <a href="planner.html" class="nav-link active">
+                    Planner
+                </a>
+
+                <a href="grocery.html" class="nav-link">
+                    Grocery
+                </a>
+
+                <a href="expenses.html" class="nav-link">
+                    Expenses
+                </a>
+
+                <a href="meals.html" class="nav-link">
+                    Meals & Recipes
+                </a>
+
+            </nav>
+
+            <div class="sidebar-bottom">
+                <a href="login.html" class="logout-link">
+                    Logout
+                </a>
+            </div>
+
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+
+            <!-- PAGE HEADER -->
+            <section class="page-header">
+
+                <div>
+                    <p class="page-label">Life Planning</p>
+                    <h1>Planner 📅</h1>
+
+                    <p class="page-description">
+                        Organize your schedule, tasks and plans.
+                    </p>
+                </div>
+
+                <button
+                    type="button"
+                    id="show-plan-form"
+                    class="primary-button"
+                >
+                    + Add Plan
+                </button>
+
+            </section>
+
+            <!-- SUMMARY CARDS -->
+            <section class="planner-summary">
+
+                <div class="summary-card">
+                    <p>Upcoming Plans</p>
+                    <h2 id="planner-upcoming-count">0</h2>
+                </div>
+
+                <div class="summary-card">
+                    <p>This Month</p>
+                    <h2 id="planner-month-count">0</h2>
+                </div>
+
+                <div class="summary-card">
+                    <p>Today</p>
+                    <h2 id="planner-today-count">0</h2>
+                </div>
+
+            </section>
+
+            <!-- ADD / EDIT PLAN FORM -->
+            <section
+                id="plan-form"
+                class="task-form hidden"
+            >
+
+                <h2 id="plan-form-title">
+                    Add Plan
+                </h2>
+
+                <div class="form-grid">
+
+                    <label>
+                        Plan Name
+
+                        <input
+                            type="text"
+                            id="plan-name"
+                            placeholder="Example: Project meeting"
+                        >
+                    </label>
+
+                    <label>
+                        Date
+
+                        <input
+                            type="date"
+                            id="plan-date"
+                        >
+                    </label>
+
+                    <label>
+                        Type
+
+                        <select id="plan-type">
+                            <option value="Personal">
+                                Personal
+                            </option>
+
+                            <option value="Work">
+                                Work
+                            </option>
+
+                            <option value="Other">
+                                Other
+                            </option>
+                        </select>
+                    </label>
+
+                </div>
+
+                <label class="notes-label">
+                    Notes
+
+                    <textarea
+                        id="plan-notes"
+                        rows="4"
+                        placeholder="Add your notes here..."
+                    ></textarea>
+                </label>
+
+                <div class="form-buttons">
+
+                    <button
+                        type="button"
+                        id="cancel-plan"
+                        class="secondary-button"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="button"
+                        id="save-plan"
+                        class="primary-button"
+                    >
+                        Add Plan
+                    </button>
+
+                </div>
+
+            </section>
+
+            <!-- CALENDAR SECTION -->
+            <section class="calendar-section">
+
+                <div class="section-header">
+
+                    <div>
+                        <h2>Calendar</h2>
+                        <p>
+                            View your plans and tasks by date.
+                        </p>
+                    </div>
+
+                    <div class="calendar-navigation">
+
+                        <button
+                            type="button"
+                            id="previous-month"
+                            class="secondary-button"
+                            aria-label="Previous month"
+                        >
+                            &#10094;
+                        </button>
+
+                        <h3 id="calendar-month-title">
+                            Month Year
+                        </h3>
+
+                        <button
+                            type="button"
+                            id="next-month"
+                            class="secondary-button"
+                            aria-label="Next month"
+                        >
+                            &#10095;
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- CALENDAR GRID -->
+                <div
+                    id="calendar-grid"
+                    class="calendar-grid"
+                ></div>
+
+            </section>
+
+            <!-- SELECTED DATE -->
+            <section class="selected-date-section">
+
+                <div class="section-header">
+
+                    <div>
+                        <h2 id="selected-date-title">
+                            Selected Date
+                        </h2>
+
+                        <p>
+                            Plans and tasks for this date.
+                        </p>
+                    </div>
+
+                    <span id="selected-date-count">
+                        0 Items
+                    </span>
+
+                </div>
+
+                <div
+                    id="selected-date-list"
+                    class="task-list"
+                ></div>
+
+            </section>
+
+            <!-- ALL PLANS -->
+            <section class="task-section">
+
+                <div class="section-header">
+
+                    <div>
+                        <h2>All Plans</h2>
+
+                        <p>
+                            Manage your upcoming plans.
+                        </p>
+                    </div>
+
+                    <span id="plan-list-count">
+                        0 Plans
+                    </span>
+
+                </div>
+
+                <div
+                    id="plan-list"
+                    class="task-list"
+                ></div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <!-- SUPABASE SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- SUPABASE CONFIG -->
+    <script src="supabase-config.js"></script>
+
+    <!-- AUTHENTICATION -->
+    <script src="auth.js"></script>
+
+    <!-- PLANNER JAVASCRIPT -->
+    <script src="planner.js"></script>
+
+</body>
+</html>

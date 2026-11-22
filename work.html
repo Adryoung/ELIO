@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>ELIO - Work</title>
+
+  <link rel="stylesheet" href="work.css">
+</head>
+
+<body>
+
+<div class="app-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="brand">
+      <h2>🦋 ELIO</h2>
+    </div>
+
+    <nav class="navigation">
+      <a href="home.html" class="nav-link">Home</a>
+      <a href="ai.html" class="nav-link"> ✨ AI Assistant</a>
+      <a href="work.html" class="nav-link active">Work</a>
+      <a href="personal.html" class="nav-link">Personal</a>
+      <a href="planner.html" class="nav-link">Planner</a>
+ <a href="study.html" class="nav-link">Study Hub</a>
+
+      <a href="grocery.html" class="nav-link">Grocery</a>
+      <a href="expenses.html" class="nav-link">Expenses</a>
+      <a href="meals.html" class="nav-link">Meals & Recipes</a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <a href="login.html" class="logout-link">Logout</a>
+    </div>
+
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content" id="elio-work">
+
+    <!-- PAGE HEADER -->
+    <section class="page-header">
+
+      <div>
+        <p class="page-label">Work Space</p>
+        <h1>Work 💼</h1>
+        <p class="page-description">
+          Manage your office tasks and deadlines.
+        </p>
+      </div>
+
+      <button
+        type="button"
+        id="show-work-form"
+        class="primary-button">
+        + Add Task
+      </button>
+
+    </section>
+
+    <!-- SUMMARY -->
+    <section class="work-summary">
+
+      <div class="summary-card">
+        <p>Open Tasks</p>
+        <h2 id="work-open-count">0</h2>
+      </div>
+
+      <div class="summary-card">
+        <p>Completed</p>
+        <h2 id="work-completed-count">0</h2>
+      </div>
+
+      <div class="summary-card">
+        <p>Due Today</p>
+        <h2 id="work-today-count">0</h2>
+      </div>
+
+    </section>
+
+    <!-- ADD / EDIT FORM -->
+    <section
+      id="work-form"
+      class="task-form hidden"
+      style="display:none;">
+
+      <h2 id="work-form-title">Add Work Task</h2>
+
+      <div class="form-grid">
+
+        <label>
+          Task Name
+          <input
+            type="text"
+            id="work-task-name"
+            placeholder="Example: Follow up supplier">
+        </label>
+
+        <label>
+          Due Date
+          <input
+            type="date"
+            id="work-task-date">
+        </label>
+
+      </div>
+
+      <label class="notes-label">
+        Notes
+        <textarea
+          id="work-task-notes"
+          rows="4"
+          placeholder="Example: Waiting for supplier quotation..."></textarea>
+      </label>
+
+      <div class="form-buttons">
+
+        <button
+          type="button"
+          id="cancel-work-task"
+          class="secondary-button">
+          Cancel
+        </button>
+
+        <button
+          type="button"
+          id="save-work-task"
+          class="primary-button">
+          Add Task
+        </button>
+
+      </div>
+    </section>
+
+    <!-- OPEN TASKS -->
+    <section class="task-section">
+
+      <div class="section-header">
+        <div>
+          <h2>Work Tasks</h2>
+          <p>Your current office tasks and Planner activities.</p>
+        </div>
+
+        <span id="work-task-count">0 Tasks</span>
+      </div>
+
+      <div
+        id="work-task-list"
+        class="task-list">
+      </div>
+
+    </section>
+
+    <!-- COMPLETED TASKS -->
+    <section
+      class="task-section"
+      style="margin-top:24px;">
+
+      <div class="section-header">
+        <div>
+          <h2>Completed Tasks</h2>
+          <p>Your completed Work and Planner activities.</p>
+        </div>
+
+        <span id="work-completed-list-count">0 Tasks</span>
+      </div>
+
+      <div
+        id="work-completed-list"
+        class="task-list">
+      </div>
+
+    </section>
+
+  </main>
+</div>
+
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="auth.js"></script>
+<script src="work.js"></script>
+
+</body>
+</html>
